@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoldNews.de - Neuigkeiten, Vorhersagen und Analysen</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        header { background-color: #333; color: white; padding: 1em 0; text-align: center; }
+        nav a { color: white; margin: 0 1em; text-decoration: none; }
+        .container { width: 80%; margin: 0 auto; }
+        .live-prices { background-color: #fff; padding: 1em; margin: 1em 0; border-radius: 5px; }
+        .news, .analysis { background-color: #fff; padding: 1em; margin: 1em 0; border-radius: 5px; }
+        .news-item, .analysis-item { border-bottom: 1px solid #ddd; padding: 0.5em 0; }
+        .news-item:last-child, .analysis-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GoldNews.de</h1>
+        <nav>
+            <a href="#">Startseite</a>
+            <a href="#">Aktuelle Preise</a>
+            <a href="#">Vorhersagen</a>
+            <a href="#">Analysen</a>
+            <a href="#">Über uns</a>
+            <a href="#">Kontakt</a>
+        </nav>
+    </header>
+    <div class="container">
+        <section class="live-prices">
+            <h2>Aktuelle Preise</h2>
+            <p>1 Gramm: €<span id="price-gram">-</span></p>
+            <p>1 Unze: €<span id="price-ounce">-</span></p>
+        </section>
+        <section class="news">
+            <h2>Neuigkeiten</h2>
+            <div id="news-container">
+                <!-- Nachrichten werden hier eingefügt -->
+            </div>
+        </section>
+        <section class="analysis">
+            <h2>Vorhersagen und Analysen</h2>
+            <div id="analysis-container">
+                <!-- Analysen werden hier eingefügt -->
+            </div>
+        </section>
+    </div>
+    <script>
+        // Simulierte Daten - in einer echten Anwendung würde dies von einer API kommen
+        const goldPrices = {
+            gram: 56.78, // Beispielwert
+            ounce: 1764.50 // Beispielwert
+        };
+        
+        const newsArticles = [
+            { title: "Goldpreis steigt aufgrund wirtschaftlicher Unsicherheiten", source: "Reuters", link: "#", date: "2024-06-24" },
+            { title: "Analysten erwarten steigende Goldpreise", source: "Bloomberg", link: "#", date: "2024-06-24" },
+            // Weitere Artikel hinzufügen
+        ];
+        
+        const analysisReports = [
+            { title: "Wöchentliche Goldpreisvorhersage", source: "Financial Times", link: "#", date: "2024-06-24" },
+            { title: "Monatliche Analyse der Goldmarkttrends", source: "CNBC", link: "#", date: "2024-06-24" },
+            // Weitere Analysen hinzufügen
+        ];
+        
+        document.getElementById('price-gram').innerText = goldPrices.gram.toFixed(2);
+        document.getElementById('price-ounce').innerText = goldPrices.ounce.toFixed(2);
+        
+        const newsContainer = document.getElementById('news-container');
+        newsArticles.forEach(article => {
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+            newsItem.innerHTML = `<h3>${article.title}</h3><p>Quelle: ${article.source} | Datum: ${article.date}</p><a href="${article.link}">Weiterlesen</a>`;
+            newsContainer.appendChild(newsItem);
+        });
+        
+        const analysisContainer = document.getElementById('analysis-container');
+        analysisReports.forEach(report => {
+            const analysisItem = document.createElement('div');
+            analysisItem.className = 'analysis-item';
+            analysisItem.innerHTML = `<h3>${report.title}</h3><p>Quelle: ${report.source} | Datum: ${report.date}</p><a href="${report.link}">Weiterlesen</a>`;
+            analysisContainer.appendChild(analysisItem);
+        });
+    </script>
+</body>
+</html>
