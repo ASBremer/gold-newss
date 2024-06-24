@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoldNews.de - Neuigkeiten, Vorhersagen und Analysen</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        header { background-color: #333; color: white; padding: 1em 0; text-align: center; }
+        nav a { color: white; margin: 0 1em; text-decoration: none; }
+        .container { width: 80%; margin: 0 auto; }
+        .live-prices { background-color: #fff; padding: 1em; margin: 1em 0; border-radius: 5px; }
+        .news, .analysis { background-color: #fff; padding: 1em; margin: 1em 0; border-radius: 5px; }
+        .news-item, .analysis-item { border-bottom: 1px solid #ddd; padding: 0.5em 0; }
+        .news-item:last-child, .analysis-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GoldNews.de</h1>
+        <nav>
+            <a href="#">Startseite</a>
+            <a href="#live-prices">Aktuelle Preise</a>
+            <a href="#news">Neuigkeiten</a>
+            <a href="#analysis">Vorhersagen und Analysen</a>
+            <a href="#about">Über uns</a>
+            <a href="#contact">Kontakt</a>
+        </nav>
+    </header>
+    <div class="container">
+        <section id="live-prices" class="live-prices">
+            <h2>Aktuelle Preise</h2>
+            <p>1 Gramm: €<span id="price-gram">-</span></p>
+            <p>1 Unze: €<span id="price-ounce">-</span></p>
+        </section>
+        <section id="news" class="news">
+            <h2>Neuigkeiten</h2>
+            <div id="news-container">
+                <!-- Nachrichten werden hier dynamisch eingefügt -->
+            </div>
+        </section>
+        <section id="analysis" class="analysis">
+            <h2>Vorhersagen und Analysen</h2>
+            <div id="analysis-container">
+                <!-- Analysen werden hier dynamisch eingefügt -->
+            </div>
+        </section>
+        <section id="about">
+            <h2>Über uns</h2>
+            <p>Hier können Sie eine kurze Beschreibung über Ihr Unternehmen oder Ihre Webseite einfügen.</p>
+        </section>
+        <section id="contact">
+            <h2>Kontakt</h2>
+            <p>Fügen Sie hier Kontaktdetails oder ein Kontaktformular hinzu.</p>
+        </section>
+    </div>
+    <script>
+        // Funktion zum Abrufen und Aktualisieren der Goldpreise
+        const updateGoldPrices = async () => {
+            try {
+                const response = await fetch('https://api.example.com/gold-prices'); // Beispiel-URL für Goldpreise
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                document.getElementById('price-gram').innerText = data.priceGram.toFixed(2);
+                document.getElementById('price-ounce').innerText = data.priceOunce.toFixed(2);
+            } catch (error) {
+                console.error('Error fetching gold prices:', error);
+            }
+        };
+
+        // Funktion zum Abrufen und Anzeigen der aktuellen Nachrichten
+        const updateNews = async () => {
+            try {
+                const response = await fetch('https://api.example.com/news'); // Beispiel-URL für Nachrichten
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = ''; // Vorhandene Nachrichten leeren
+                data.forEach(article => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    newsItem.innerHTML = `
+                        <h3>${article.title}</h3>
+                        <p>Quelle: ${article.source} | Datum: ${article.date} | Uhrzeit: ${article.time}</p>
+                        <a href="${article.link}">Weiterlesen</a>
+                    `;
+                    newsContainer.appendChild(newsItem);
+                });
+            } catch (error) {
+                console.error('Error fetching news articles:', error);
+            }
+        };
+
+        // Funktion zum Abrufen und Anzeigen der aktuellen Analysen
+        const updateAnalysis = async () => {
+            try {
+                const response = await fetch('https://api.example.com/analysis'); // Beispiel-URL für Analysen
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const analysisContainer = document.getElementById('analysis-container');
+                analysisContainer.innerHTML = ''; // Vorhandene Analysen leeren
+                data.forEach(report => {
+                    const analysisItem = document.createElement('div');
+                    analysisItem.className = 'analysis-item';
+                    analysisItem.innerHTML = `
+                        <h3>${report.title}</h3>
+                        <p>Quelle: ${report.source} | Datum: ${report.date} | Uhrzeit: ${report.time}</p>
+                        <a href="${report.link}">Weiterlesen</a>
+                    `;
+                    analysisContainer.appendChild(analysisItem);
+                });
+            } catch (error) {
+                console.error('Error fetching analysis reports:', error);
+            }
+        };
+
+        // Funktionen beim Laden der Seite aufrufen
+        document.addEventListener('DOMContentLoaded', () => {
+            updateGoldPrices();
+            updateNews();
+            updateAnalysis();
+            // Aktualisierung der Daten alle 5 Minuten (300000 Millisekunden)
+            setInterval(() => {
+                updateGoldPrices();
+                updateNews();
+                updateAnalysis();
+            }, 300000); // 5 Minuten in Millisekunden
+        });
+    </script>
+</body>
+</html>
